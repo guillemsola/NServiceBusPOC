@@ -1,24 +1,30 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="EndpointConfig.cs" company="GSA">
+//   Guillem Solà
+// </copyright>
+// <summary>
+//   Defines the SendMessage type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ServiceBus.ClientA
 {
     using NServiceBus;
 
-	/*
-		This class configures this endpoint as a Server. More information about how to configure the NServiceBus host
-		can be found here: http://particular.net/articles/the-nservicebus-host
-	*/
-    public class EndpointConfig : IConfigureThisEndpoint, AsA_Client, IWantCustomInitialization
+    /// <summary>
+    /// The endpoint config.
+    /// </summary>
+    public class EndpointConfig : IConfigureThisEndpoint, AsA_Client
     {
-        public void Init()
+        /// <summary>
+        /// The customize.
+        /// </summary>
+        /// <param name="configuration">
+        /// The configuration.
+        /// </param>
+        public void Customize(BusConfiguration configuration)
         {
-           Configure.Serialization.Xml();
-
-           Configure.With()
-               .DefaultBuilder()
-               .InMemorySubscriptionStorage()
-               //.DisableTimeoutManager()
-               .UseInMemoryTimeoutPersister()
-               ;
+            configuration.UsePersistence<InMemoryPersistence>();
         }
     }
 }

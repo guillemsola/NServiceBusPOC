@@ -1,17 +1,33 @@
-﻿using NServiceBus;
-using ServiceBus.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="SendMessage.cs" company="GSA">
+//   Guillem Solà
+// </copyright>
+// <summary>
+//   Defines the SendMessage type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace ServiceBus.ClientA
 {
+    using System;
+
+    using NServiceBus;
+
+    using ServiceBus.Messages;
+
+    /// <summary>
+    /// The send message.
+    /// </summary>
     public class SendMessage : IWantToRunWhenBusStartsAndStops
     {
+        /// <summary>
+        /// Gets or sets the bus.
+        /// </summary>
         public IBus Bus { get; set; }
 
+        /// <summary>
+        /// The start.
+        /// </summary>
         public void Start()
         {
             Console.WriteLine("Client A. Press 'Enter' to send a message2");
@@ -20,14 +36,17 @@ namespace ServiceBus.ClientA
             {
                 var id = Guid.NewGuid();
 
-                Bus.Send("ServiceBus.Server", new FileSent() { FileId = id, Status = 1, Message = "File published in CRS" });
-                //Bus.Publish<FileSent>(e => { e.FileId = id; e.Status = 1; e.Message = "File published in CRS"; });
-
+                this.Bus.Send("ServiceBus.Server", new FileSent { FileId = id, Status = 1, Message = "File published in CRS" });
+                
+                // Bus.Publish<FileSent>(e => { e.FileId = id; e.Status = 1; e.Message = "File published in CRS"; });
                 Console.WriteLine("======");
                 Console.WriteLine("Send message for file {0}", id.ToString("N").ToUpper());
             }
         }
 
+        /// <summary>
+        /// The stop.
+        /// </summary>
         public void Stop()
         {
             Console.WriteLine("Client A Stop");
