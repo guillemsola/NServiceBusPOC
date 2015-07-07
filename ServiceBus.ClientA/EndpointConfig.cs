@@ -25,6 +25,7 @@ namespace ServiceBus.ClientA
         public void Customize(BusConfiguration configuration)
         {
             configuration.UsePersistence<InMemoryPersistence>();
+            configuration.UseTransport<RabbitMQTransport>();
         }
     }
 }
